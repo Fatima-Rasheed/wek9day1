@@ -4,18 +4,17 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Enable CORS for frontend
   app.enableCors({
-    origin:
-      process.env.NODE_ENV === 'production'
-        ? process.env.FRONTEND_URL || 'http://localhost:3000'
-        : true, // Allow all origins in development
+    origin: [
+      'https://week9day1frontend.vercel.app',
+      'http://localhost:3000',
+    ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
   });
 
   await app.listen(process.env.PORT ?? 3001);
-  console.log(
-    `Backend running on http://localhost:${process.env.PORT ?? 3001}`,
-  );
+  console.log(`Backend running on http://localhost:${process.env.PORT ?? 3001}`);
 }
 bootstrap();
