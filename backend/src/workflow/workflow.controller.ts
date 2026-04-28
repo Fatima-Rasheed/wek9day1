@@ -6,8 +6,8 @@ export class WorkflowController {
   constructor(private readonly workflowService: WorkflowService) {}
 
   @Post('ask')
-  async ask(@Body() body: { question: string }) {
-    return this.workflowService.processQuestion(body.question);
+  async ask(@Body() body: { question: string; uploadedOnly?: boolean }) {
+    return this.workflowService.processQuestion(body.question, body.uploadedOnly || false);
   }
 
   @Get('trace/:id')

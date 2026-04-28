@@ -27,6 +27,18 @@ export default function AnswerDisplay({ answer }: Props) {
             {line.substring(2)}
           </h1>
         );
+      } else if (line.startsWith('#### ')) {
+        return (
+          <h4 key={idx} className="text-base sm:text-lg font-semibold mt-4 mb-2 text-gray-800 dark:text-gray-200 animate-slideIn">
+            {line.substring(5)}
+          </h4>
+        );
+      } else if (line.startsWith('### ')) {
+        return (
+          <h3 key={idx} className="text-lg sm:text-xl font-semibold mt-5 sm:mt-6 mb-2 sm:mb-3 text-gray-800 dark:text-gray-200 animate-slideIn">
+            {line.substring(4)}
+          </h3>
+        );
       } else if (line.startsWith('## ')) {
         const text = line.substring(3);
         const isWarning = text.includes('⚠️');

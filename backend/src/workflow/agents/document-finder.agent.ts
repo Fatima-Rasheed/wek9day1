@@ -10,17 +10,23 @@ export class DocumentFinderAgent {
     private documentModel: Model<DocumentModel>,
   ) {}
 
-  async findDocuments(subQuestions: string[]): Promise<any[]> {
+  async findDocuments(subQuestions: string[], uploadedOnly: boolean = false): Promise<any[]> {
     const allDocs: any[] = [];
 
     for (const subQuestion of subQuestions) {
       // Extract keywords from sub-question
       const keywords = this.extractKeywords(subQuestion);
 
+      // Build query - filter by uploaded tag if specified
+      const query: any = { $text: { $search: keywords.join(' ') } };
+      if (uploadedOnly) {
+        query.tags = 'uploaded';
+      }
+
       // Search using MongoDB text search
       const docs = await this.documentModel
         .find(
-          { $text: { $search: keywords.join(' ') } },
+          query,
           { score: { $meta: 'textScore' } },
         )
         .sort({ score: { $meta: 'textScore' } })

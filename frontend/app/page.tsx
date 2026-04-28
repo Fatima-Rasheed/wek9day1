@@ -11,6 +11,7 @@ import DocumentUpload from './components/DocumentUpload';
 export default function Home() {
   const [result, setResult] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const [uploadedOnly, setUploadedOnly] = useState(false);
 
   const handleAsk = async (question: string) => {
     setLoading(true);
@@ -20,7 +21,7 @@ export default function Home() {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/ask`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question }),
+        body: JSON.stringify({ question, uploadedOnly }),
       });
 
       const data = await response.json();
@@ -72,6 +73,21 @@ export default function Home() {
 
         <div className="max-w-5xl mx-auto">
           <QuestionInput onAsk={handleAsk} loading={loading} />
+
+          {/* Toggle for uploaded documents only */}
+          <div className="mt-4 flex items-center justify-center gap-2">
+            <label className="flex items-center gap-2 cursor-pointer bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all">
+              <input
+                type="checkbox"
+                checked={uploadedOnly}
+                onChange={(e) => setUploadedOnly(e.target.checked)}
+                className="w-4 h-4 text-indigo-600 bg-gray-100 border-gray-300 rounded focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              />
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                Search only in uploaded documents
+              </span>
+            </label>
+          </div>
 
           {loading && (
             <div className="mt-6 sm:mt-8 text-center animate-fadeIn">

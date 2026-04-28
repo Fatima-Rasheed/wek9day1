@@ -39,13 +39,13 @@ export class WorkflowService {
     private finalAnswerMaker: FinalAnswerAgent,
   ) {}
 
-  async processQuestion(query: string) {
+  async processQuestion(query: string, uploadedOnly: boolean = false) {
     // Step 1: Split question
     const subQuestions = await this.questionSplitter.split(query);
 
-    // Step 2: Find documents
+    // Step 2: Find documents (filter by uploaded if specified)
     const documentResults =
-      await this.documentFinder.findDocuments(subQuestions);
+      await this.documentFinder.findDocuments(subQuestions, uploadedOnly);
 
     // Check if any documents were found
     const totalDocuments = documentResults.reduce(
