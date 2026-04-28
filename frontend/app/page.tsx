@@ -6,6 +6,7 @@ import QuestionInput from './components/QuestionInput';
 import AnswerDisplay from './components/AnswerDisplay';
 import TracePanel from './components/TracePanel';
 import ThemeToggle from './components/ThemeToggle';
+import DocumentUpload from './components/DocumentUpload';
 
 export default function Home() {
   const [result, setResult] = useState<any>(null);
@@ -43,7 +44,8 @@ export default function Home() {
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8 relative z-10">
         {/* Navigation */}
-        <nav className="flex justify-end items-center mb-4 sm:mb-6">
+        <nav className="flex justify-between items-center mb-4 sm:mb-6">
+          <DocumentUpload />
           <ThemeToggle />
         </nav>
 
